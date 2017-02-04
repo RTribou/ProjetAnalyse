@@ -1,0 +1,11 @@
+Pour les samples Mirai:
+	-Recuperer les adresses et les taille des sections dans chaque binaire (avec gdb , size ou autre)
+	--Script Python
+		-Pour chaque sample:
+			-Ouvrir sample en mode binaire
+			-Parcourir le sample octets par octets
+			-Pour chaque section parcouru -> calculer l'entropie
+			-Stocker les resultats de maniere exploitable pour redis
+
+
+	
