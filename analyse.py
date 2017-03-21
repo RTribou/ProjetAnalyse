@@ -19,7 +19,9 @@ def drawPixelEntropy(img, x, y, entropy):
 	else:
 		img[x,y]=(0,0,0)
 
-def analyseBySections(tmp_file, size):
+
+
+def analyseBySections(filename, tmp_file, size):
 	img = Image.new( 'RGB', (width,height), "white") # create a new black image
 	pixels = img.load() # creat
 	print("Fichier: "+ent_file + " Taille totale : "+str(size))
@@ -39,19 +41,14 @@ def analyseBySections(tmp_file, size):
 			#print(t)
 			for y in t:
 				drawPixelEntropy(pixels,x, y, float(data[1]))
-				'''if float(data[1])<=3:
-					pixels[x,y]=(0,255,0)
-				elif float(data[1])<=5:
-					pixels[x,y]=(255,255,0)
-				else:
-					pixels[x,y]=(255,0,0)'''
 				#print("x "+str(x) +" y "+str(y))
 
 		start_draw=start_draw+height_of_section
 
-	img.show()
+	#img.show()
+	img.save(filename[0:len(filename)-3]+"jpeg","jpeg")
 
-def analyseByBlocks(tmp_file, info_file):
+def analyseByBlocks(filename, tmp_file, info_file):
 
 	img = Image.new( 'RGB', (width,height), "black") # create a new black image
 	pixels = img.load() # creat
@@ -65,23 +62,18 @@ def analyseByBlocks(tmp_file, info_file):
 	tmp_pixel=0
 	for line in tmp_file:
 
-
+		#drawBlock(pixels, line, nb_pixel_per_block)
 		for x in range(nb_pixel_per_block):
 			#pixels[tmp_pixel,tmp_line]=color
 			drawPixelEntropy(pixels, tmp_pixel, tmp_line, float(line))
-			'''if float(line)<=3:
-				pixels[tmp_pixel,tmp_line]=(0,255,2)
-			elif float(line)<=5:
-				pixels[tmp_pixel,tmp_line]=(255,255,0)
-			else:
-				pixels[tmp_pixel,tmp_line]=(255,0,0)
-			print(str(tmp_line) + " - "+ str(tmp_pixel))'''
+			#print(str(tmp_line) + " - "+ str(tmp_pixel))
 			tmp_pixel=tmp_pixel+1
 			if tmp_pixel==width:
 				tmp_line=tmp_line+1
 				tmp_pixel=0
 
-	img.show()
+	#img.show()
+	img.save(filename[0:len(filename)-4]+"-blocks.jpeg","jpeg")
 
 for ent_file in list_entropy_file:
 	# Create an empty image
@@ -92,12 +84,13 @@ for ent_file in list_entropy_file:
 	info_file=tmp_file.readline()
 	if "blocks" in info_file:
 		print ("[+]"+ ent_file +" -> Analyse by blocks")
-		analyseByBlocks(tmp_file, info_file)
+		analyseByBlocks(ent_file,tmp_file, info_file)
 	else:
 		print ("[+]"+ ent_file +" -> Analyse by sections")
-		analyseBySections(tmp_file, info_file)
+		analyseBySections(ent_file, tmp_file, info_file)
 
-		'''def analyseByBlocks(tmp_file, info_file):
+
+'''def analyseByBlocks(tmp_file, info_file):
 		print(info_file.split(';'))
 
 	def analyseBySections(tmp_file, size):
