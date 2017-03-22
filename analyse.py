@@ -10,13 +10,15 @@ list_entropy_file=glob.glob("*.ent")
 width=600
 height=800
 def drawPixelEntropy(img, x, y, entropy):
-	if entropy < 2:
+	if entropy < 2: #Vert
 		img[x,y]=(0,255,0)
-	elif entropy < 4:
+	elif entropy < 3:#Jaune
 		img[x,y]=(255,255,0)
-	elif entropy < 6:
+	elif entropy < 5:#Orange
+		img[x,y]=(255,140,0)
+	elif entropy < 6:#Rouge
 		img[x,y]=(255,0,0)
-	else:
+	else:#Noire
 		img[x,y]=(0,0,0)
 
 

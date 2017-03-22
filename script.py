@@ -127,24 +127,27 @@ def openFile(path, mode):
 #----------------------------------------------------------
 if __name__ == '__main__':
 	current_wd = os.getcwd()
-	print('Current Working Directory: ' + current_wd)
+	print('[+]Current Working Directory: ' + current_wd)
 	list_files= os.listdir(current_wd)
 
 	for filename in list_files:
-		if '.' in filename:
-			print(filename + ' is not a binary')
+		res=os.popen('file -i ' + filename).readlines()#application/x-executable; charset=binary
+
+		if "application/x-executable; charset=binary" in res[0]:#Detection des binaires
+			print ("[+]Executable binary: "+ filename)
+		else:
 			list_files.remove(filename)
-			print(filename + ' has been removed from listfile')
+
 	#End for
 
 	if len(sys.argv)==2:
 		if sys.argv[1]=="--blocks":
-			print("Analyse par bloc")
+			print("[+]Analyse par bloc")
 			analyseByBlocks(list_files)
 		else:
-			print("Error")
+			print("[-]Error")
 	else:
-		print("Analyse sections par sections")
+		print("[+]Analyse sections par sections")
 		analyseBySections(list_files)
 	'''for filename in list_files:
 		print("Nom du fichier: "+filename)
